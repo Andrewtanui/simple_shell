@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 /**
  * main - Entry point of the shell program
@@ -12,6 +13,7 @@ int main(void)
     char *line = NULL;
     size_t bufsize = 0;
     ssize_t nread;
+    char *argv[] = {NULL};
 
     while (1)
     {
@@ -25,7 +27,7 @@ int main(void)
 
         if (fork() == 0)
         {
-            if (execve(line, NULL, NULL) == -1)
+            if (execve(line, argv, NULL) == -1)
             {
                 perror("Error");
                 exit(EXIT_FAILURE);
