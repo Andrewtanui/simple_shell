@@ -8,7 +8,7 @@
 char *read_line(void)
 {
 	static char buffer[2048];
-	static int buffer_pos;
+	static size_t buffer_pos;
 	int c;
 
 	while (1)
@@ -27,7 +27,7 @@ char *read_line(void)
 			buffer_pos++;
 
 
-			if (buffer_pos >= sizeof(buffer))
+			if (buffer_pos >= sizeof(buffer) - 1)
 			{
 				char *temp = malloc(sizeof(buffer) * 2);
 
