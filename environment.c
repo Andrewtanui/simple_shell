@@ -8,9 +8,14 @@
 
 char *get_environ_variable(const char *vari_name)
 {
-	char **environ;
+	extern char **environ;
 	int i = 0;
 	size_t var_length = strlen(vari_name);
+
+	if (environ == NULL)
+	{
+		return NULL;
+	}
 
 	while (environ[i])
 	{
@@ -33,8 +38,7 @@ int set_environ_variable(const char *vari_name, const char *value)
 {
 	char *var;
 	size_t var_length;
-	char *vari_value;
-
+	
 	var_length = strlen(vari_name) + 1 + strlen(value) + 1;
 	var = malloc(var_length);
 	if (!var)
