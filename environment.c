@@ -1,26 +1,21 @@
 #include "shell.h"
-
 /**
  * get_environ_variable - Gets value of an environment variable
- * @vari_name: Name of environment variable
+ * @vari_name: Environment variable
  *
- * Return: Value of the environment variable or NULL if not found
+ * Return: Value environment variable or NULL if not found
  */
+
 char *get_environ_variable(const char *vari_name)
 {
-	extern char **environ;
+	char **environ;
 	int i = 0;
-	size_t var_len = strlen(vari_name);
-
-	if (environ == NULL)
-	{
-		return NULL;
-	}
+	size_t var_length = strlen(vari_name);
 
 	while (environ[i])
 	{
-		if (strncmp(environ[i], vari_name, var_len) == 0 && environ[i][var_len] == '=')
-			return (environ[i] + var_len + 1);
+		if (strncmp(environ[i], vari_name, var_length) == 0 && environ[i][var_length] == '=')
+			return (environ[i] + var_length + 1);
 		i++;
 	}
 
@@ -28,26 +23,27 @@ char *get_environ_variable(const char *vari_name)
 }
 
 /**
- * set_environ_variable - Set environment variable value
- * @vari_name: Environment variable name
+ * set_environ_variable - Sets environment variable
+ * @vari_name: Environment variable
  * @value: Value to be set
  *
- * Return: 0 if success or -1 if failure
+ * Return: 0 if success or -1 if fail
  */
 int set_environ_variable(const char *vari_name, const char *value)
 {
 	char *var;
-	size_t var_len;
+	size_t var_length;
+	char *vari_value;
 
-	var_len = strlen(vari_name) + 1 + strlen(value) + 1;
-	var = malloc(var_len);
+	var_length = strlen(vari_name) + 1 + strlen(value) + 1;
+	var = malloc(var_length);
 	if (!var)
 	{
 		perror("set_environ_variable");
 		return (-1);
 	}
 
-	snprintf(var, var_len, "%s=%s", vari_name, value);
+	snprintf(var, var_length, "%s=%s", vari_name, value);
 	if (putenv(var) != 0)
 	{
 		perror("set_environ_variable");

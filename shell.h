@@ -1,5 +1,5 @@
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef SIMPLE_SHELL_H
+#define SIMPLE_SHELL_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,12 +13,13 @@
 
 char *read_line(void);
 char **split_line(char *line);
-int exe_command(char **args);
+int ex_command(char **args);
 
-int exe_exit(void);
-int exe_env(void);
+int ex_exit(void);
+int ex_env(void);
+int ex_cd(char **args);
 
 char *get_environ_variable(const char *vari_name);
 int set_environ_variable(const char *vari_name, const char *value);
 
-#endif /* SHELL_H */
+#endif

@@ -1,21 +1,21 @@
 #include "shell.h"
-
 /**
- * read_line - Read line input from  user
+ * read_line - Read line input from the user.
  *
- * Return: Line input as a string
+ * Return: Line input as a string.
  */
+
 char *read_line(void)
 {
-	char *line = NULL;
+	char *lin = NULL;
 	size_t bufsize = 0;
 
-	if (getline(&line, &bufsize, stdin) == -1)
+	if (getline(&lin, &bufsize, stdin) == -1)
 	{
 		if (feof(stdin))
 		{
-			free(line);
-			line = NULL;
+			free(lin);
+			lin = NULL;
 		}
 		else
 		{
@@ -24,19 +24,19 @@ char *read_line(void)
 		}
 	}
 
-	return (line);
+	return (lin);
 }
-
 /**
- * split_line - Split  line into args
- * @line: Line to be split into args
+ * split_line - Split line into args
+ * @line: Line split into args
  *
  * Return: Array of pointers to the args
  */
+
 char **split_line(char *line)
 {
 	int bufsize = TOKEN_BUFSIZE;
-	int position = 0;
+	int pos = 0;
 	char **tokens = malloc(bufsize * sizeof(char *));
 	char *token;
 
@@ -49,10 +49,10 @@ char **split_line(char *line)
 	token = strtok(line, TOKEN_DELIMITERS);
 	while (token != NULL)
 	{
-		tokens[position] = token;
-		position++;
+		tokens[pos] = token;
+		pos++;
 
-		if (position >= bufsize)
+		if (pos >= bufsize)
 		{
 			bufsize += TOKEN_BUFSIZE;
 			tokens = realloc(tokens, bufsize * sizeof(char *));
@@ -65,21 +65,21 @@ char **split_line(char *line)
 
 		token = strtok(NULL, TOKEN_DELIMITERS);
 	}
-	tokens[position] = NULL;
+	tokens[pos] = NULL;
 
 	return (tokens);
 }
-
 /**
- * exe_command - Exe command with the given args
- * @args: Arguments passed as parameter
+ * ex_command - Execute command with given args
+ * @args: Arguments passed as parameters
  *
- * Return: Returns 1 to continue with shell exe
+ * Return: 1 to continue with shell
  */
-int exe_command(char **args)
+
+int ex_command(char **args)
 {
 	pid_t pid;
-	int stats;
+	int status;
 
 	if (args[0] == NULL)
 		return (1);
@@ -101,8 +101,8 @@ int exe_command(char **args)
 	else
 	{
 		do {
-			waitpid(pid, &stats, WUNTRACED);
-		} while (!WIFEXITED(stats) && !WIFSIGNALED(stats));
+			waitpid(pid, &status, WUNTRACED);
+		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 
 	return (1);
