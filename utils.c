@@ -1,49 +1,31 @@
 #include "shell.h"
-
 /**
  * read_line - Read line input from the user.
  *
  * Return: Line input as a string.
  */
+
 char *read_line(void)
 {
-	static char buffer[2048];
-	static size_t buffer_pos;
-	int c;
+	char *lin = NULL;
+	size_t bufsize = 0;
 
-	while (1)
+	if (getline(&lin, &bufsize, stdin) == -1)
 	{
-		c = getchar();
-
-		if (c == EOF || c == '\n')
+		if (feof(stdin))
 		{
-			buffer[buffer_pos] = '\0';
-			buffer_pos = 0;
-			return (strdup(buffer));
+			free(lin);
+			lin = NULL;
 		}
 		else
 		{
-			buffer[buffer_pos] = c;
-			buffer_pos++;
-
-
-			if (buffer_pos >= sizeof(buffer) - 1)
-			{
-				char *temp = malloc(sizeof(buffer) * 2);
-
-				if (temp == NULL)
-				{
-					perror("read_line");
-					exit(EXIT_FAILURE);
-				}
-				memcpy(temp, buffer, sizeof(buffer));
-				free(buffer);
-				buffer = temp;
-			}
+			perror("read_line");
+			exit(EXIT_FAILURE);
 		}
 	}
-}
 
+	return (lin);
+}
 /**
  * split_line - Split line into args
  * @line: Line split into args
