@@ -11,6 +11,8 @@
 #define TOKEN_BUFSIZE 64
 #define TOKEN_DELIMITERS " \t\r\n\a"
 
+extern char **environ;
+
 char *read_line(void);
 char **split_line(char *line);
 int ex_command(char **args);
