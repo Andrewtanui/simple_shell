@@ -82,59 +82,28 @@ int ex_command(char **args)
 	int status;
 
 	if (args[0] == NULL)
-	{
 		return (1);
-	}
 
-	char *command = args[0];
-	char *path = get_environ_variable("PATH");
-	char *path_token = strtok(path, ":");
-	struct stat st;
-
-	while (path_token != NULL)
+	pid = fork();
+	if (pid == 0)
 	{
-		char *full_path = malloc(strlen(path_token) + strlen(command) + 2);
-		if (full_path == NULL)
+		if (execvp(args[0], args) == -1)
 		{
-			perror("ex_command");
+			perror("execute_command");
 			exit(EXIT_FAILURE);
 		}
-
-		snprintf(full_path, strlen(path_token) + strlen(command) + 2, "%s/%s", path_token, command);
-
-		if (stat(full_path, &st) == 0)
-		{
-			pid = fork();
-			if (pid == 0)
-			{
-				if (execvp(full_path, args) == -1)
-				{
-					perror("ex_command");
-					exit(EXIT_FAILURE);
-				}
-			}
-			else if (pid < 0)
-			{
-				perror("ex_command");
-				exit(EXIT_FAILURE);
-			}
-			else
-			{
-				do {
-					waitpid(pid, &status, WUNTRACED);
-				} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-			}
-
-			free(full_path);
-			return 1;
-		}
-
-		free(full_path);
-		path_token = strtok(NULL, ":");
 	}
-
-	fprintf(stderr, "%s: command not found\n", command);
+	else if (pid < 0)
+	{
+		perror("execute_command");
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		do {
+			waitpid(pid, &status, WUNTRACED);
+		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+	}
 
 	return (1);
 }
-
