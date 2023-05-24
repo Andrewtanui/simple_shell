@@ -22,6 +22,9 @@ int ex_exit(void);
 int ex_env(void);
 int ex_cd(char **args);
 
+void handle_signal(int signum);
+int run_shell(void);
+
 char *get_environ_variable(const char *vari_name);
 int set_environ_variable(const char *vari_name, const char *value);
 
