@@ -86,7 +86,7 @@ int execute_command(char **args)
 	if (pid == 0)
 	{
 		/* Child process */
-		char *args[] = {"/bin/sh", "-c", command, NULL};
+		char *args[] = {"/bin/sh", "-c", args, NULL};
 
 		execvp(args[0], args);
 		perror("execvp");
@@ -112,4 +112,4 @@ int execute_command(char **args)
 
 	return (1);
 }
-
+}
