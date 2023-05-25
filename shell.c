@@ -20,9 +20,17 @@ int main(void)
 		{
 			status = ex_cd(args);
 		}
+		else if (args[0] != NULL && strcmp(args[0], "exit") == 0)
+		{
+			status = ex_exit();
+		}
+		else if (args[0] != NULL && strcmp(args[0], "env") == 0)
+		{
+			status = ex_env();
+		}
 		else
 		{
-			status = ex_command(args);
+			status = execute_command(args);
 		}
 
 		free(line);
@@ -31,4 +39,3 @@ int main(void)
 
 	return (0);
 }
-

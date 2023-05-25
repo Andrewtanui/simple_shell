@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- * ex_exit - Exit built-in command
+ * ex_exit - exit built-in command
  *
- * Return: Always returns 0 to exit shell
+ * Return: Returns 0 to exit shell
  */
 int ex_exit(void)
 {
@@ -11,15 +11,15 @@ int ex_exit(void)
 }
 
 /**
- * ex_env - Env built-in command
+ * ex_env - env built-in command
  *
- * Return: Always returns 1 to continue the shell
+ * Return: Returns 1 to continue the shell
  */
 int ex_env(void)
 {
 	int i = 0;
 
-	while (environ[i] != NULL)
+	while (environ[i])
 	{
 		printf("%s\n", environ[i]);
 		i++;
@@ -29,7 +29,7 @@ int ex_env(void)
 }
 
 /**
- * ex_cd - Cd built-in command
+ * ex_cd - cd built-in command
  * @args: Args passed as parameters
  *
  * Return: 1 to continue with the shell
@@ -50,4 +50,3 @@ int ex_cd(char **args)
 
 	return (1);
 }
-
