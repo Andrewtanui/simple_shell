@@ -29,7 +29,7 @@ char *read_line(void)
 
 /**
  * split_line - Split line into args
-* @line: Line split
+ * @line: Line split
  *
  * Return: Array of pointers to the args
  */
@@ -82,40 +82,34 @@ int execute_command(char **args)
 	pid_t pid;
 	int status;
 
-	if (args[0] == NULL)
-		return (1);
-
-	if (strcmp(args[0], "env") == 0)
-	{
-		char **env = environ;
-
-		while (*env != NULL)
-		{
-			printf("%s\n", *env);
-			env++;
-		}
-		return (1);
-	}
 	pid = fork();
-
 	if (pid == 0)
 	{
-		if (execve(args[0], args, environ) == -1)
-		{
-			perror("execute_command");
-			exit(EXIT_FAILURE);
-		}
+		/* Child process */
+		char *args[] = {"/bin/sh", "-c", command, NULL};
+
+		execvp(args[0], args);
+		perror("execvp");
+		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 	{
-		perror("execute_command");
+		/* Fork failed */
+		perror("fork");
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
+		/* Parent process */
 		do {
-			waitpid(pid, &status, WUNTRACED);
+			if (waitpid(pid, &status, WUNTRACED) == -1)
+			{
+				perror("waitpid");
+				exit(EXIT_FAILURE);
+			}
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
+
 	return (1);
 }
+
