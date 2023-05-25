@@ -1,25 +1,20 @@
 #include "shell.h"
+
 /**
- * get_environ_variable - Gets value of an environment variable
+ * get_environ_variable - Gets the value of an environment variable
  * @vari_name: Environment variable
  *
- * Return: Value environment variable or NULL if not found
+ * Return: Value of the environment variable or NULL if not found
  */
-
 char *get_environ_variable(const char *vari_name)
 {
 	int i = 0;
 	size_t var_length = strlen(vari_name);
 
-	if (environ == NULL)
-	{
-		return (NULL);
-	}
-
 	while (environ[i])
 	{
 		if (strncmp(environ[i], vari_name, var_length) == 0 &&
-			environ[i][var_length] == '=')
+				environ[i][var_length] == '=')
 			return (environ[i] + var_length + 1);
 		i++;
 	}
@@ -28,11 +23,11 @@ char *get_environ_variable(const char *vari_name)
 }
 
 /**
- * set_environ_variable - Sets environment variable
+ * set_environ_variable - Sets an environment variable
  * @vari_name: Environment variable
  * @value: Value to be set
  *
- * Return: 0 if success or -1 if fail
+ * Return: 0 if success, -1 if fail
  */
 int set_environ_variable(const char *vari_name, const char *value)
 {

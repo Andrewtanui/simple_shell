@@ -1,10 +1,10 @@
 #include "shell.h"
-/**
- * read_line - Read line input from the user.
- *
- * Return: Line input as a string.
- */
 
+/**
+ * read_line - Read line input
+ *
+ * Return: Line input
+ */
 char *read_line(void)
 {
 	char *lin = NULL;
@@ -26,13 +26,13 @@ char *read_line(void)
 
 	return (lin);
 }
+
 /**
  * split_line - Split line into args
- * @line: Line split into args
+* @line: Line split
  *
  * Return: Array of pointers to the args
  */
-
 char **split_line(char *line)
 {
 	int bufsize = TOKEN_BUFSIZE;
@@ -56,6 +56,7 @@ char **split_line(char *line)
 		{
 			bufsize += TOKEN_BUFSIZE;
 			tokens = realloc(tokens, bufsize * sizeof(char *));
+
 			if (!tokens)
 			{
 				perror("split_line");
@@ -69,14 +70,14 @@ char **split_line(char *line)
 
 	return (tokens);
 }
+
 /**
- * ex_command - Execute command with given args
- * @args: Arguments passed as parameters
+ * execute_command - Execute command with given args
+ * @args: Arguments passed
  *
  * Return: 1 to continue with shell
  */
-
-int ex_command(char **args)
+int execute_command(char **args)
 {
 	pid_t pid;
 	int status;
@@ -84,10 +85,22 @@ int ex_command(char **args)
 	if (args[0] == NULL)
 		return (1);
 
+	if (strcmp(args[0], "env") == 0)
+	{
+		char **env = environ;
+
+		while (*env != NULL)
+		{
+			printf("%s\n", *env);
+			env++;
+		}
+		return (1);
+	}
 	pid = fork();
+
 	if (pid == 0)
 	{
-		if (execvp(args[0], args) == -1)
+		if (execve(args[0], args, environ) == -1)
 		{
 			perror("execute_command");
 			exit(EXIT_FAILURE);
@@ -104,6 +117,5 @@ int ex_command(char **args)
 			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
-
 	return (1);
 }
