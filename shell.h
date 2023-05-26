@@ -8,7 +8,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#define TOKEN_BUFSIZE 64
+#define TOKEN_BUFSIZE 1024
 #define TOKEN_DELIMITERS " \t\r\n\a"
 
 char *read_line(void);
