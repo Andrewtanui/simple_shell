@@ -82,34 +82,40 @@ int execute_command(char **args)
 	pid_t pid;
 	int status;
 
+	if (args[0] == NULL)
+		return (1);
+
+	if (strcmp(args[0], "env") == 0)
+	{
+		char **env = environ;
+
+		while (*env != NULL)
+		{
+			printf("%s\n", *env);
+			env++;
+		}
+		return (1);
+	}
 	pid = fork();
+
 	if (pid == 0)
 	{
-		/* Child process */
-		char *args[] = {"/bin/sh", "-c", args, NULL};
-
-		execvp(args[0], args);
-		perror("execvp");
-		exit(EXIT_FAILURE);
+		if (execve(args[0], args, environ) == -1)
+		{
+			perror("execute_command");
+			exit(EXIT_FAILURE);
+		}
 	}
 	else if (pid < 0)
 	{
-		/* Fork failed */
-		perror("fork");
+		perror("execute_command");
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
-		/* Parent process */
 		do {
-			if (waitpid(pid, &status, WUNTRACED) == -1)
-			{
-				perror("waitpid");
-				exit(EXIT_FAILURE);
-			}
+			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
-
 	return (1);
-}
 }
