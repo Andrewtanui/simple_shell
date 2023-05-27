@@ -54,7 +54,7 @@ void find_command(information_t *info)
 	char *pth = NULL;
 	int i, j;
 
-	info->pth = info->argv[0];
+	info->path = info->argv[0];
 	if (info->linecount_flag == 1)
 	{
 		info->line_count++;
@@ -69,7 +69,7 @@ void find_command(information_t *info)
 	pth = fnd_path(info, _get_env(info, "PATH="), info->argv[0]);
 	if (pth)
 	{
-		info->pth = pth;
+		info->path = pth;
 		fork_command(info);
 	}
 	else

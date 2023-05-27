@@ -17,11 +17,11 @@ listing_t *_node_ad(listing_t **hd, const char *strng, int nm)
 	if (!nw_hd)
 		return (NULL);
 	_memset((void *)nw_hd, 0, sizeof(listing_t));
-	nw_hd->nm = nm;
+	nw_hd->num = nm;
 	if (strng)
 	{
-		nw_hd->strng = _strdupli(strng);
-		if (!nw_hd->strng)
+		nw_hd->str = _strdupli(strng);
+		if (!nw_hd->str)
 		{
 			free(nw_hd);
 			return (NULL);
@@ -52,11 +52,11 @@ listing_t *_nod_end_ad(listing_t **hd, const char *strng, int nm)
 	if (!nw_node)
 		return (NULL);
 	_memset((void *)nw_node, 0, sizeof(listing_t));
-	nw_node->nm = nm;
+	nw_node->num = nm;
 	if (strng)
 	{
-		nw_node->strng = _strdupli(strng);
-		if (!nw_node->strng)
+		nw_node->str = _strdupli(strng);
+		if (!nw_node->str)
 		{
 			free(nw_node);
 			return (NULL);

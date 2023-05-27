@@ -60,7 +60,7 @@ char **list_to_strings(listing_t *hd)
 		return (NULL);
 	for (i = 0; node; node = node->next, i++)
 	{
-		stre = malloc(_strlen(node->stre) + 1);
+		stre = malloc(_strlen(node->str) + 1);
 		if (!stre)
 		{
 			for (j = 0; j < i; j++)
@@ -69,7 +69,7 @@ char **list_to_strings(listing_t *hd)
 			return (NULL);
 		}
 
-		stre = _strcpy(stre, node->stre);
+		stre = _strcpy(stre, node->str);
 		strins[i] = stre;
 	}
 	strins[i] = NULL;
